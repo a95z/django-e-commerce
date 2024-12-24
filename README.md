@@ -27,11 +27,11 @@ The app is currently deployed on **Vercel** for seamless cloud hosting.
 
 ## Database Design
 
-The database structure is designed based on the following ERD diagram, created using [Lucidchart](https://lucid.app/lucidchart/68b25839-5e43-4ad5-993b-d8ec15ee32d3/edit?viewport_loc=-944%2C-644%2C2605%2C1178%2C0_0&invitationId=inv_484d742a-fcf5-44ac-98d0-d4b22b67d848).
+The database structure is designed based on the following ERD diagram, created using [Lucidchart](https://lucid.app/).
 
 You can view the complete ERD diagram here:
 
-[Database ERD Diagram](https://lucid.app/lucidchart/68b25839-5e43-4ad5-993b-d8ec15ee32d3/edit?viewport_loc=-944%2C-644%2C2605%2C1178%2C0_0&invitationId=inv_484d742a-fcf5-44ac-98d0-d4b22b67d848)
+[Database ERD Diagram](https://lucid.app/lucidchart/68b25839-5e43-4ad5-993b-d8ec15ee32d3/edit?viewport_loc=-2875%2C-1769%2C6400%2C2894%2C0_0&invitationId=inv_484d742a-fcf5-44ac-98d0-d4b22f67d848)
 
 The database includes tables for products, categories, orders, carts, and other essential data related to an e-commerce system.
 
@@ -41,7 +41,7 @@ Follow these steps to set up the project locally:
 
 1. Clone the repository:
 ```bash
-    git clone https://github.com/abdurezakfarah/django-5-1-4-e-commerce.git e-commerce
+    git clone https://github.com/abdurezakfarah/django-e-commerce.git e-commerce
 ```
 2. Navigate to the project folder:
 ```bash
