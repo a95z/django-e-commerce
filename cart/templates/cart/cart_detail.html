@@ -1,0 +1,286 @@
+{% extends "layout.html" %}
+
+{% load humanize %}
+
+{% block title %}
+  Cart
+{% endblock title %}
+
+{% block content %}
+<section>
+    <h2 class="text-xl font-semibold sm:text-2xl">
+      Shopping Cart {% if cart.items.exist %}<span class="font-mono">({{ cart.items.all | length }})</span>{% endif %}
+    </h2>
+    <div class="mt-6 sm:mt-8">
+      <div class="w-full flex flex-col md:flex-row md:gap-6 xl:gap-8">
+        {% if cart.items.all %}
+          <div class="space-y-4 flex-1 md:space-y-6">
+            {% for item  in cart.items.all %}
+              <div class="rounded-md bg-card text-card-foreground p-4 shadow">
+                <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-4 md:space-y-0">
+                  <a href="{% url "products:product_detail" product_line_id=item.product_line.id %}" class="shrink-0 md:order-1">
+                    <img class="size-20" src="{{ item.product_line.image.url }}" alt="imac image" />
+                  </a>
+
+                  <label for="counter-input" class="sr-only">Choose quantity:</label>
+                  <div class="flex items-center justify-between md:order-3 md:justify-end">
+                    <div class="flex items-center">
+                      <button type="button" id="decrement-button" data-input-counter-decrement="counter-input" class="inline-flex size-6 shrink-0 items-center justify-center rounded-md border bg-muted/70 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus"><path d="M5 12h14"/></svg>
+                      </button>
+                      <input type="text" id="counter-input" data-input-counter class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium focus:outline-none focus:ring-0" placeholder="" value="{{ item.quantity }}" required />
+                      <button type="button" id="increment-button-{{ item.id }}" data-input-counter-increment="counter-input" class="inline-flex size-6 shrink-0 items-center justify-center rounded-md border bg-muted/70 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                      </button>
+                    </div>
+                    <div class="text-end md:order-4 md:w-32">
+                      <p class="font-bold">
+                        ${{ item.get_total_price | intcomma }}</p>
+                    </div>
+                  </div>
+
+                  <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+                    <a href="{% url "products:product_detail" item.product_line.id %}" class="font-medium text-gray-900 hover:underline dark:text-white">
+                      {{ item.product_line.name }}
+                    </a>
+
+                    <div class="flex items-center gap-4">
+                      <button type="button" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
+                        <svg class="me-1.5 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+                        </svg>
+                        Add to Favorites
+                      </button>
+                      
+                      <form 
+                        action="{% url "cart:cart_remove" item.product_line.id %}" 
+                        method="POST">
+                        {% csrf_token %}
+                        <button class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
+                          <svg class="me-1.5 size-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                          </svg>
+                          Remove
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+            <div class="mt-6 lg:max-w-96 space-y-6 lg:mt-0">
+              <div class="space-y-4 rounded-md border bg-card text-card-foreground p-4 shadow md:p-6">
+                <h3 class="text-xl font-semibold leading-none tracking-tight">Order summary</h3>
+
+                <div class="space-y-4">
+                  <div class="space-y-2">
+                    <dl class="flex items-center justify-between gap-4">
+                      <dt class="font-normal text-muted-foreground dark:text-gray-400">
+                        Original price
+                      </dt>
+                      <dd class="font-medium">$7,592.00</dd>
+                    </dl>
+
+                    <dl class="flex items-center justify-between gap-4">
+                      <dt class="font-normal text-muted-foreground">Savings</dt>
+                      <dd class="font-medium text-lime-600">-$299.00</dd>
+                    </dl>
+
+                    <dl class="flex items-center justify-between gap-4">
+                      <dt class="font-normal text-muted-foreground dark:text-gray-400">Store Pickup</dt>
+                      <dd class="font-medium">$99</dd>
+                    </dl>
+
+                    <dl class="flex items-center justify-between gap-4">
+                      <dt class="font-normal text-muted-foreground">Tax</dt>
+                      <dd class="font-medium">$799</dd>
+                    </dl>
+                  </div>
+
+                  <dl class="flex items-center justify-between gap-4 border-t pt-2">
+                    <dt class="font-bold">Total</dt>
+                    <dd class="font-bold">${{ cart.get_total_price | intcomma }}</dd>
+                  </dl>
+                </div>
+
+                <form action="{% url "orders:order_create" %}" method="post">
+                  {% csrf_token %}
+                  <button href="#"
+                    class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring h-9 px-4 py-2 bg-primary text-primary-foreground shadow hover:bg-primary/90">
+                    Proceed to Checkout
+                  </button>
+                </form>
+
+                <div class="flex items-center justify-center gap-2">
+                  <span class="text-sm font-normal text-gray-500"> or </span>
+                  <a href="#" title="" class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">
+                    Continue Shopping
+                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="space-y-4 rounded-lg border bg-card text-card-foreground p-4 shadow sm:p-6">
+                <form class="space-y-4">
+                  <div class="space-y-2">
+                    <label for="voucher">
+                      Do you have a voucher or gift card? 
+                    </label>
+                    <input type="text" id="voucher" class="flex h-9 w-full rounded border border-input bg-transparent px-3 py-1 shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm" placeholder="" required />
+                  </div>
+                  <button type="submit" class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring h-9 px-4 py-2 bg-primary text-primary-foreground shadow hover:bg-primary/90">Apply Code</button>
+                </form>
+              </div>
+            </div>
+        {% else %}
+          <div class="py-10 flex-1 flex items-center justify-center">
+              <div class="flex flex-col gap-4 items-center justify-center">
+                <svg
+                	  xmlns="http://www.w3.org/2000/svg"
+                    width="64"
+                    height="64"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="stroke-muted-foreground"
+                >
+                        <circle
+                            cx="8"
+                            cy="21"
+                            r="1"
+                        />
+                        <circle
+                            cx="19"
+                            cy="21"
+                            r="1"
+                        />
+                        <path
+                            d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                        />
+                    </svg>
+            <hgroup class="space-y-1 text-center text-pretty max-w-md">
+              <h2 class="text-2xl font-semibold tracking-tight">
+                Your cart is empty
+              </h2>
+              <p class="text-muted-foreground mt-2 mb-4">
+                Looks like you haven't added anything to your cart yet.
+              </p>
+            </hgroup>
+              </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="xl:mt-8">
+          <h3 class="text-2xl font-semibold">People also bought</h3>
+          <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:mt-8">
+            <div class="space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <a href="#" class="overflow-hidden rounded">
+                <img class="mx-auto h-44 w-44 dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="imac image" />
+                <img class="mx-auto hidden h-44 w-44 dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="imac image" />
+              </a>
+              <div>
+                <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">iMac 27”</a>
+                <p class="mt-2 font-normal text-gray-500 dark:text-gray-400">This generation has some improvements, including a longer continuous battery life.</p>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-gray-900 dark:text-white">
+                  <span class="line-through"> $399,99 </span>
+                </p>
+                <p class="text-lg font-bold leading-tight text-red-600 dark:text-red-500">$299</p>
+              </div>
+              <div class="mt-6 flex items-center gap-2.5">
+                <button data-tooltip-target="favourites-tooltip-1" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+                  <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z"></path>
+                  </svg>
+                </button>
+                <div id="favourites-tooltip-1" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                  Add to favourites
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+                <button type="button" class="inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium  text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  <svg class="-ms-2 me-2 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
+                  </svg>
+                  Add to cart
+                </button>
+              </div>
+            </div>
+            <div class="space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <a href="#" class="overflow-hidden rounded">
+                <img class="mx-auto h-44 w-44 dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/ps5-light.svg" alt="imac image" />
+                <img class="mx-auto hidden h-44 w-44 dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/ps5-dark.svg" alt="imac image" />
+              </a>
+              <div>
+                <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">Playstation 5</a>
+                <p class="mt-2 font-normal text-gray-500 dark:text-gray-400">This generation has some improvements, including a longer continuous battery life.</p>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-gray-900 dark:text-white">
+                  <span class="line-through"> $799,99 </span>
+                </p>
+                <p class="text-lg font-bold leading-tight text-red-600 dark:text-red-500">$499</p>
+              </div>
+              <div class="mt-6 flex items-center gap-2.5">
+                <button data-tooltip-target="favourites-tooltip-2" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+                  <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z"></path>
+                  </svg>
+                </button>
+                <div id="favourites-tooltip-2" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                  Add to favourites
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+                <button type="button" class="inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium  text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  <svg class="-ms-2 me-2 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
+                  </svg>
+                  Add to cart
+                </button>
+              </div>
+            </div>
+            <div class="space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <a href="#" class="overflow-hidden rounded">
+                <img class="mx-auto h-44 w-44 dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-light.svg" alt="imac image" />
+                <img class="mx-auto hidden h-44 w-44 dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-dark.svg" alt="imac image" />
+              </a>
+              <div>
+                <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">Apple Watch Series 8</a>
+                <p class="mt-2 font-normal text-gray-500 dark:text-gray-400">This generation has some improvements, including a longer continuous battery life.</p>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-gray-900 dark:text-white">
+                  <span class="line-through"> $1799,99 </span>
+                </p>
+                <p class="text-lg font-bold leading-tight text-red-600 dark:text-red-500">$1199</p>
+              </div>
+              <div class="mt-6 flex items-center gap-2.5">
+                <button data-tooltip-target="favourites-tooltip-3" type="button" class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+                  <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z"></path>
+                  </svg>
+                </button>
+                <div id="favourites-tooltip-3" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                  Add to favourites
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+
+                <button type="button" class="inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium  text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  <svg class="-ms-2 me-2 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
+                  </svg>
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+</section>
+{% endblock content %}

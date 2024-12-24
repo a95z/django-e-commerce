@@ -1,0 +1,53 @@
+<!doctype html>
+{% load static %}
+<html lang="en" class="scroll-smooth focus:scroll-auto">
+    <head>
+        {% comment %} core {% endcomment %}
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="icon" type="image/x-icon" href="{% static "favicon.ico" %}">
+
+        {% comment %} fonts {% endcomment %}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        {% comment %} styles {% endcomment %}
+        <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/tw.css' %}" />
+
+        {% comment %} Scrits {% endcomment %}
+        <script src="{% static "js/flowbite.min.js" %}"></script>
+
+        <title>{% block title %} Shop {% endblock %}</title>
+    </head>
+    <body>
+        
+        {% block navbar %} 
+            {% include "includes/navbar.html" %}
+        {% endblock %}
+
+        <main class="container mx-auto py-8 relative min-h-[calc(100vh-3.5rem)] flex flex-col">
+            {% block content%}{% endblock %}
+        </main>
+
+
+        {% block footer %}
+            {% include "includes/footer.html" %}
+        {% endblock footer %}
+
+        
+        <div class="fixed bottom-1 left-1 z-50 flex size-6 items-center justify-center rounded-full bg-gray-800 p-3 font-mono text-xs text-white">
+            <div class="font-medium block sm:hidden">xs</div>
+            <div class="font-medium hidden sm:block md:hidden lg:hidden xl:hidden 2xl:hidden">sm</div>
+            <div class="font-medium hidden md:block lg:hidden xl:hidden 2xl:hidden">md</div>
+            <div class="font-medium hidden lg:block xl:hidden 2xl:hidden">lg</div>
+            <div class="font-medium hidden xl:block 2xl:hidden">xl</div>
+            <div class="font-medium hidden 2xl:block">2xl</div>
+        </div>
+    </body>
+</html>

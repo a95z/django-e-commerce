@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create Order
+{% endblock title %}
+
+{% block content %}
+<div class="flex-1 flex flex-col items-center justify-center">
+    <div class="md:w-[350px] rounded-xl border bg-card text-card-foreground shadow p-6">
+        <hgroup class="flex flex-col space-y-1.5">
+            <h2 class="font-semibold leading-none tracking-tight">Create New Order</h2>
+        </hgroup>
+             {% include "includes/form.html" with form=form action="" btn_label="Place order" %}
+    </div>
+</div>
+{% endblock content %}

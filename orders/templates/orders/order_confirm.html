@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% load orders_extras %}
+
+{% block title  %}
+    Order Confirmed
+{% endblock title  %}
+
+{% block content  %}
+<section>
+    <div class="mx-auto max-w-2xl px-4 2xl:px-0">
+        <h2 class="text-xl font-semibold sm:text-2xl mb-2">
+            Thank you {{ order.user.first_name }} for your order!
+        </h2>
+        <p class="text-muted-foreground mb-6 md:mb-8">
+            Your order <a href="" class="font-medium hover:underline">#{{ order.id }}</a> will be processed within 24 hours during working days. We will notify you by email once your order has been shipped.</p>
+        <div class="space-y-4 sm:space-y-2 bg-card text-card-foreground rounded-md border p-6 mb-6 md:mb-8">
+            <dl class="sm:flex items-center justify-between gap-4">
+                <dt class="font-normal mb-1 sm:mb-0 text-muted-foreground">Date</dt>
+                <dd class="font-medium sm:text-end">{{ order.created_at | date:"d F Y" }}</dd>
+            </dl>
+            <dl class="sm:flex items-center justify-between gap-4">
+                <dt class="font-normal mb-1 sm:mb-0 text-muted-foreground">Payment Method</dt>
+                <dd class="font-medium sm:text-end">JPMorgan monthly installments</dd>
+            </dl>
+            <dl class="sm:flex items-center justify-between gap-4">
+                <dt class="font-normal mb-1 sm:mb-0 text-muted-foreground">Name</dt>
+                <dd class="font-medium sm:text-end">{{ order.user.get_full_name }}</dd>
+            </dl>
+            <dl class="sm:flex items-center justify-between gap-4">
+                <dt class="font-normal mb-1 sm:mb-0 text-muted-foreground">Address</dt>
+                <dd class="font-medium sm:text-end">{{ order.shipping_address }}</dd>
+            </dl>
+            <dl class="sm:flex items-center justify-between gap-4">
+                <dt class="font-normal mb-1 sm:mb-0 text-muted-foreground">Phone</dt>
+                <dd class="font-medium sm:text-end">{{ order.user.phone }}</dd>
+            </dl>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="#" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring h-9 px-4 py-2 bg-primary text-primary-foreground shadow hover:bg-primary/90">
+                Track your order
+            </a>
+            <a href="#" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring h-9 px-4 py-2 border border-input bg-background shadow hover:bg-accent hover:text-accent-foreground">
+                Return to shopping
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content  %}

@@ -1,0 +1,246 @@
+<header
+    class="bg-background container sticky top-0 z-50 flex gap-10 h-14 items-center justify-between border-b"
+>
+    <a href="/" class="flex items-center gap-1.5">
+        <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            class="lucide lucide-store"
+        >
+            <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+            <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
+            <path d="M2 7h20"/>
+            <path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/>
+        </svg>
+
+        <span class="font-chewy whitespace-nowrap text-lg font-medium"> Shop </span>
+    </a>
+    <nav class="max-md:hidden flex grow justify-center gap-x-6">
+        <a
+            href="/"
+            class="{% if request.path == '/' %}underline font-medium{% endif%} underline-offset-4"
+            >
+            Home
+        </a>
+        <a
+            href="/"
+            class="{% if request.path == '/contact/' %}underline font-medium{% endif%} underline-offset-4"
+            >
+            Contact
+        </a>
+        <a
+            href=""
+            class="{% if request.path == '/about/' %}underline font-medium{% endif%} underline-offset-4"
+            >
+            About
+        </a>
+
+        {% if not user.is_authenticated %}
+            <a
+                href="{% url "users:sign_in" %}"
+                class="{% if request.path == '/sign-in/' %}underline font-medium{% endif%} underline-offset-4"
+                >
+                Sign in
+            </a>
+            <a
+                href="{% url "users:sign_up" %}"
+                class="{% if request.path == '/users/sign-up/' %}underline font-medium{% endif%} underline-offset-4"
+                >
+                Sign up
+            </a>
+        {% endif %}
+        
+    </nav>
+    <div class="flex sm:grow md:grow-0 gap-6 items-center">
+        <search class="grow max-sm:hidden">
+            <form action="{% url "products:product_search" %}" class='relative bg-muted/85 rounded'>
+                <input
+                    type="search"
+                    name="term"
+                    value="{% if term %}{{ term }}{% endif %}"
+                    placeholder="What are you looking for?"
+                    class="peer flex w-full rounded border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    aria-label="Search"
+                    aria-describedby="search-description"
+                    autocomplete="off"
+                    spellcheck="false"
+                    inputmode="search"
+                    minlength="1"
+                    maxlength="256"
+                    pattern=".*\S.*"
+                    required
+                    role="searchbox"
+                />
+
+              
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    stroke-width="2" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round" 
+                    class="hidden absolute right-2 top-1/2 -translate-y-1/2 transition-opacity peer-placeholder-shown:inline pointer-events-none"
+                    aria-hidden
+                >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                </svg>
+            </form>
+        </search>
+        <div class="flex gap-2">
+            <button class="btn  btn-icon">
+                <span class="sr-only">See you favourates</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    >
+                    <path
+                        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+                    />
+                </svg>
+            </button>
+            <a href="{% url "cart:cart_detail" %}" class="btn  btn-icon">
+                <span class="sr-only">Cart</span>
+                <div class="relative">
+                    {% if cart and request.path != "/cart/" %}
+                        <span class="size-4 flex items-center justify-center text-xs bg-destructive text-destructive-foreground font-medium rounded-full absolute -top-1/2 translate-y-1/2 left-full -translate-x-1/2">{{ cart.get_total_items }}</span>
+                    {% endif %}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="{% if request.path == "/cart/" %}black{% else %}none{% endif %}"
+                        stroke="black"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        >
+                            <circle
+                                cx="8"
+                                cy="21"
+                                r="1"
+                            />
+                            <circle
+                                cx="19"
+                                cy="21"
+                                r="1"
+                            />
+                            <path
+                                d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                            />
+                        </svg>
+                </div>
+            </a>
+            <button
+                data-collapse-toggle="navbar-default"
+                type="button"
+                class="btn btn-icon md:hidden"
+                aria-controls="navbar-default"
+                aria-expanded="false"
+            >
+                <span class="sr-only">Open main menu</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-menu">
+                    <line x1="4" x2="20" y1="12" y2="12"/>
+                    <line x1="4" x2="20" y1="6" y2="6"/>
+                    <line x1="4" x2="20" y1="18" y2="18"/>
+                </svg>
+            </button>
+
+            {% if user.is_authenticated %}
+                <button 
+                    id="dropdownUserAvatarButton" 
+                    data-dropdown-toggle="dropdownAvatar" 
+                    type="button"
+                    class="btn btn-icon"
+                >
+                    <span class="sr-only">Open user menu</span>
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="24"
+                        height="24" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        stroke-width="2" 
+                        stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        class="lucide lucide-user">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </button>
+
+                
+                <div 
+                    id="dropdownAvatar" 
+                    class="z-10 hidden bg-popover text-popover-foreground divide-y divide-y-muted rounded-lg shadow w-44">
+                    <div class="px-4 py-3 text-sm">
+                        <p>{{ user.get_full_name }}</p>
+                        <p class="font-light text-muted-foreground truncate">{{ user.email }}</p>
+                    </div>
+                    <ul 
+                        class="py-2 text-sm" 
+                        aria-labelledby="dropdownUserAvatarButton">
+                        <li>
+                            <a 
+                                href="{% url "orders:orders" %}" 
+                                class="block px-4 py-2 hover:bg-muted">
+                                Orders
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-muted">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-muted">Settings</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-muted">Earnings</a>
+                        </li>
+                    </ul>
+                    <form 
+                        action="{% url "users:sign_out" %}" 
+                        method="post"
+                        class="py-2"
+                        >
+                        {% csrf_token %}
+                        
+                        <button class="text-left px-4 py-2 text-sm hover:bg-muted">
+                            Sign out
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</header>

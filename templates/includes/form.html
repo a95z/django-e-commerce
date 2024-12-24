@@ -1,0 +1,45 @@
+{% if form %}
+    <form
+            action="{{ action }}{% if next %}?next={{ next }}{% endif %}"
+            method="post"
+            class="form"
+        >
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <ol class="list-disc text-sm text-destructive">
+                    {% for error in form.non_field_errors %}
+                        <li><strong>{{ error|escape }}</strong></li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            
+            {% for field in form %}
+                <div class="form-item">
+                    {% if field.field.widget.input_type == 'checkbox' %}
+                        {{ field }}
+                        {{ field.label_tag }}
+                    {% else %}
+                        {{ field.label_tag }}
+                        {{ field }}
+                    {% endif %}
+                   
+                    {% if field.help_text %}
+                        <p class="form-description" id="{{ field.auto_id }}_helptext">
+                            {{ field.help_text|safe }}
+                        </p>
+                    {% endif %}
+                    {% if field.errors %}
+                        <ol class=" text-sm list-disc text-destructive">
+                        {% for error in field.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                        </ol>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button class="btn btn-size btn-primary">
+                {{ btn_label }}
+            </button>
+        </form>
+{% endif %}
