@@ -39,7 +39,7 @@ DEBUG = os.getenv("DEBUG") == "True"
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "abdurezak.pythonanywhere.com/",
+    "abdurezak.pythonanywhere.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = ["https://abdurezak.pythonanywhere.com/"]
