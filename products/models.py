@@ -135,7 +135,7 @@ class ProductLine(models.Model):
         attribute_values = [
             attribute.value.capitalize() for attribute in self.attributes.all()
         ]
-        return f"{self.product.name}, {",".join(attribute_values)}"
+        return f"{self.product.name}, {','.join(attribute_values)}"
     
     def __str__(self):
         return self.name
