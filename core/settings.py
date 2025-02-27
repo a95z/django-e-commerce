@@ -30,8 +30,6 @@ SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-5s_t3%^9y5^pqk^2#by1=t*)^$s4cs^@x$nm1q^k!@(qwm!kp0"
 )
 
-# print("SECRET_KEY: ", os.getenv("SECRET_KEY"))
-# print("DEBUG: ", os.getenv("DEBUG"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "True"
@@ -39,10 +37,10 @@ DEBUG = os.getenv("DEBUG") == "True"
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "abdurezak.pythonanywhere.com",
+    # "abdurezak.pythonanywhere.com", ## change to your hosted url
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://abdurezak.pythonanywhere.com/"]
+# CSRF_TRUSTED_ORIGINS = ["https://abdurezak.pythonanywhere.com/"] // uncomment on production
 
 # Application definition
 
@@ -155,7 +153,7 @@ STORAGES = {
     },
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
-        "LOCATION": MEDIA_ROOT,  
+        "LOCATION": MEDIA_ROOT,
     },
 }
 
