@@ -1,0 +1,24 @@
+[project]
+name = "django-e-commerce"
+version = "0.1.0"
+description = "This is simple django e commerce website"
+authors = [
+    {name = "Abdurezak Farah",email = "abdurazak.awil1@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pillow (>=11.1.0,<12.0.0)",
+    "django (>=5.1.6,<6.0.0)",
+    "python-dotenv (>=1.0.1,<2.0.0)",
+    "django-phonenumber-field (>=8.0.0,<9.0.0)",
+    "django-nested-admin (>=4.1.1,<5.0.0)",
+    "phonenumbers (>=8.13.55,<9.0.0)",
+    "whitenoise (>=6.9.0,<7.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
