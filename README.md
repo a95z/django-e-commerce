@@ -1,8 +1,8 @@
-# Django E-Commerce App
+# Django Inventory Management System / Ecommerce App
 
 This is a fully functional e-commerce platform built with Django and styled using Tailwind CSS. The app includes modular components for managing products, categories, orders, carts, and an admin interface, providing a scalable solution for building an online store. It is designed to be extendable, with future plans for payment integration and shipment management.
 
-The app is currently deployed on **Vercel** for seamless cloud hosting.
+The app is currently deployed on **pythonanywhere** for seamless cloud hosting.
 
 ## Features
 
@@ -19,7 +19,7 @@ The app is currently deployed on **Vercel** for seamless cloud hosting.
     - **Backend**: Django (Python)
     - **Frontend**: Tailwind CSS
     - **Database**: SQLite (for development)
-    - **Deployment**: Vercel
+    - **Deployment**: Pythonanywhere
 
 - **Future Enhancements**:
     - **Payment Integration**: Plans for integrating a payment gateway.
@@ -39,66 +39,72 @@ The database includes tables for products, categories, orders, carts, and other 
 
 Follow these steps to set up the project locally:
 
-1. Clone the repository:
-```bash
-    git clone https://github.com/abdurezakfarah/django-e-commerce.git e-commerce
-```
-2. Navigate to the project folder:
-```bash
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/a95z/django-e-commerce.git e-commerce
+    ```
+
+2. **Navigate to the project folder**:
+    ```bash
     cd e-commerce
-```
-3. Set up a Python virtual environment (recommended):
-    - Create a virtual environment:
-    ```bash
-        python -m venv venv
     ```
-    - Activate the virtual environment:
-        - On Windows:
-        ```bash
-            .venv/Scripts/activate
-        ```
-        - On MacOS:
-        ```bash
-            source venv/bin/activate
-        ```
-4. Install backend dependencies:
-    ```bash
-        pip install -r requirements.txt
-    ```
-5. Install Node.js dependencies for frontend:
 
-    - Ensure Node.js is installed (If not, install it from [here](https://nodejs.org/en)).
+3. **Install Poetry**:
+    - Follow the official Poetry installation guide: [https://python-poetry.org/docs/#installation](https://python-poetry.org/docs/#installation).
 
+4. **Set up the project using Poetry**:
+    - Install project dependencies and create a virtual environment (automatically managed by Poetry):
+      ```bash
+      poetry install
+      ```
+
+5. **Activate the Poetry virtual environment** (optional):
+    - To activate the virtual environment, run:
+      ```bash
+      poetry shell
+      ```
+    - Alternatively, you can run commands directly in the virtual environment using `poetry run` (e.g., `poetry run python manage.py runserver`).
+
+6. **Install Node.js dependencies for frontend**:
+    - Ensure Node.js is installed (if not, install it from [here](https://nodejs.org/en)).
     - Install Node.js dependencies:
+      ```bash
+      npm install
+      ```
 
-    ```bash
-        npm install
-    ```
-6. Build Tailwind CSS and start watching for changes:
-
+7. **Build Tailwind CSS and start watching for changes**:
     - The project uses Tailwind CSS for styling. To build and watch your Tailwind CSS file, run the following command:
-    ```bash
-        npm run tw:build
-    ```
+      ```bash
+      npm run tw:build
+      ```
     - This command will:
-        - Compile the static/css/tw.dev.css file.
-        - Output the minified version into static/css/tw.css.
+        - Compile the `static/css/tw.dev.css` file.
+        - Output the minified version into `static/css/tw.css`.
         - Watch for changes in your Tailwind CSS file and automatically rebuild it.
 
-7. Apply migrations:
+8. **Apply migrations**:
     ```bash
-        python manage.py migrate
-    ```
-8. Create a superuser for the Django admin interface (optional):
-    ```bash
-        python manage.py createsuperuser
+    poetry run python manage.py migrate
     ```
 
-9. Run the development server:
+9. **Create a superuser for the Django admin interface** (optional):
     ```bash
-        python manage.py runserver
+    poetry run python manage.py createsuperuser
     ```
-10. Open your browser and go to http://127.0.0.1:8000 to see the app in action.
+
+10. **Run the development server**:
+    ```bash
+    poetry run python manage.py runserver
+    ```
+
+11. **Open your browser and go to http://127.0.0.1:8000** to see the app in action.
+
+---
+
+### Notes:
+- Poetry automatically manages the virtual environment for you, so there’s no need to manually create or activate one using `venv`.
+- All Python-related commands (e.g., `python manage.py ...`) should be prefixed with `poetry run` if you’re not inside the Poetry shell.
+- If you ever need to add new dependencies, use `poetry add <package-name>` instead of manually editing `requirements.txt`.
 
 ## Contributing
 
@@ -114,5 +120,5 @@ This project was created and is maintained by **[Abdurezak Farah](https://www.tw
 
 ---
 
-> **Note**: This README is for the current version of the e-commerce app. Future updates will include details about payment integration, shipment management, and other new features as they are developed.
+> **Note**: This README is for the current version of the Inventory management system / e-commerce app. Future updates will include details about payment integration, shipment management, and other new features as they are developed.
 
